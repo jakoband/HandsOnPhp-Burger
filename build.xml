@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="DayDealStore" default="build">
+    <import file="/var/www/packages/deploy-include-with-version.xml" optional="true" />
+
+    <!-- Target to be invoked from Jenkins for development and stage branches -->
+    <target name="build" depends="prepare,lint,phploc,pdepend,phpmd,phpcpd,phpcs-ci,phpunit,phpcb">
+        <property environment="env"/>
+        <property name="deploy.directory" value="/var/www/DayDealStore/${competec.branch}/${env.BUILD_NUMBER}" />
+
+        <antcall target="deploy"/>
+
+        <echo message="Running: ln -sfn /var/www/DayDealStore/${competec.branch}/${env.BUILD_NUMBER} /var/www/DayDealStore/${competec.branch}/latest" />
+        <exec executable="ln">
+            <arg value="-sfn"/>
+            <arg value="/var/www/DayDealStore/${competec.branch}/${env.BUILD_NUMBER}"/>
+            <arg value="/var/www/DayDealStore/${competec.branch}/latest"/>
+        </exec>
+    </target>
+
+    <!-- Target to be invoked from Jenkins for master branch -->
+    <target name="build-and-deploy-from-latest-tag" depends="prepare,lint,phploc,pdepend,phpmd,phpcpd,phpcs-ci,phpunit,phpcb,check-latest-tag,checkout-latest-tag,deploy-latest-tag,checkout-master"/>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/api"/>
+        <delete dir="${basedir}/build/code-browser"/>
+        <delete dir="${basedir}/build/coverage"/>
+        <delete dir="${basedir}/build/logs"/>
+        <delete dir="${basedir}/build/pdepend"/>
+        <delete dir="${basedir}/build/RPM"/>
+    </target>
+
+    <target name="prepare" depends="clean,phpab,compress-js" description="Prepare for build">
+        <mkdir dir="${basedir}/build/api"/>
+        <mkdir dir="${basedir}/build/code-browser"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/pdepend"/>
+        <mkdir dir="${basedir}/build/RPM"/>
+    </target>
+
+    <target name="phpab" description="Generate autoloader scripts">
+        <exec executable="phpab">
+            <arg value="--output" />
+            <arg path="${basedir}/src/autoload.php" />
+            <arg path="${basedir}/src" />
+        </exec>
+
+        <exec executable="phpab">
+            <arg value="--output" />
+            <arg path="${basedir}/tests/autoload.php" />
+            <arg path="${basedir}/tests" />
+        </exec>
+    </target>
+
+    <target name="lint">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+
+            <fileset dir="${basedir}/src">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+
+            <fileset dir="${basedir}/tests">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phpunit" description="Run unit tests with PHPUnit">
+        <if>
+            <available file="/var/www/packages/deploy-include.xml"/>
+            <then>
+                <antcall target="phpunit-ci" />
+            </then>
+            <else>
+                <exec executable="phpunit" failonerror="true"/>
+            </else>
+        </if>
+    </target>
+
+    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="pdepend">
+            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+            <arg path="${basedir}/src" />
+        </exec>
+    </target>
+
+    <target name="phpmd" description="Perform project mess detection using PHPMD">
+        <exec executable="phpmd">
+            <arg path="${basedir}/src" />
+            <arg value="xml" />
+            <arg value="${basedir}/build/phpmd.xml" />
+            <arg value="--reportfile" />
+            <arg value="${basedir}/build/logs/pmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="phpcpd">
+            <arg value="--log-pmd" />
+            <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+            <arg path="${basedir}/src" />
+        </exec>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc">
+            <arg value="--log-csv" />
+            <arg value="${basedir}/build/logs/phploc.csv" />
+            <arg path="${basedir}/src" />
+        </exec>
+    </target>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer (local)">
+        <exec executable="phpcs">
+            <arg value="--standard=Competec" />
+            <arg value="--ignore=*autoload.php" />
+            <arg path="${basedir}/src" />
+        </exec>
+    </target>
+
+    <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer (Continuous Integration)">
+        <exec executable="phpcs" output="/dev/null">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+            <arg value="--standard=Competec" />
+            <arg value="--ignore=*autoload.php" />
+            <arg path="${basedir}/src" />
+        </exec>
+    </target>
+
+    <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+        <exec executable="phpcb">
+            <arg value="--log" />
+            <arg path="${basedir}/build/logs" />
+            <arg value="--source" />
+            <arg path="${basedir}/src" />
+            <arg value="--output" />
+            <arg path="${basedir}/build/code-browser" />
+        </exec>
+    </target>
+
+    <target name="check-latest-tag">
+        <mkdir dir="${basedir}/build/tags"/>
+
+        <exec executable="/data/packages/scripts/tag.php" outputproperty="latest-tag">
+            <arg path="${basedir}/build/tags"/>
+        </exec>
+
+        <condition property="deploy-from-latest-tag">
+            <not>
+                <equals arg1="${latest-tag}" arg2="do-not-build" />
+            </not>
+        </condition>
+    </target>
+
+    <target name="checkout-latest-tag" if="deploy-from-latest-tag">
+        <exec executable="git">
+            <arg value="checkout"/>
+            <arg value="${latest-tag}"/>
+        </exec>
+    </target>
+
+    <target name="deploy-latest-tag" if="deploy-from-latest-tag">
+        <echo message="Releasing ${latest-tag}"/>
+        <generateguid property="js-guid" />
+
+        <antcall target="deploy-files">
+            <param name="deploy.directory" value="/var/www/DayDealStore/${latest-tag}" />
+        </antcall>
+        <antcall target="deploy-rpm">
+            <param name="competec.name" value="daydealstore-app" />
+            <param name="branch" value="${competec.branch}" />
+            <param name="tag" value="${latest-tag}" />
+            <param name="guid" value="${js-guid}" />
+        </antcall>
+        <antcall target="deploy-rpm">
+            <param name="competec.name" value="daydealstore-static" />
+            <param name="branch" value="${competec.branch}" />
+            <param name="tag" value="${latest-tag}" />
+            <param name="guid" value="${js-guid}" />
+        </antcall>
+
+        <symlink link="/var/www/DayDealStore/release/latest" resource="/var/www/DayDealStore/${latest-tag}" overwrite="true"/>
+    </target>
+
+    <target name="checkout-master" if="deploy-from-latest-tag">
+        <exec executable="git">
+            <arg value="checkout"/>
+            <arg value="master"/>
+        </exec>
+    </target>
+
+    <target name="deploy">
+        <generateguid property="js-guid" />
+
+        <antcall target="deploy-files"/>
+        <antcall target="deploy-rpm">
+            <param name="competec.name" value="daydealstore-app" />
+            <param name="branch" value="${competec.branch}" />
+            <param name="tag" value="${env.BUILD_NUMBER}" />
+            <param name="guid" value="${js-guid}" />
+        </antcall>
+        <antcall target="deploy-rpm">
+            <param name="competec.name" value="daydealstore-static" />
+            <param name="branch" value="${competec.branch}" />
+            <param name="tag" value="${env.BUILD_NUMBER}" />
+            <param name="guid" value="${js-guid}" />
+        </antcall>
+    </target>
+
+    <target name="compress-js">
+        <exec executable="rm">
+            <arg value="-f"/>
+            <arg value="${basedir}/html/js"/>
+        </exec>
+
+        <mkdir dir="${basedir}/html/js"/>
+
+        <copy todir="${basedir}/html/js">
+            <fileset dir="/var/www/StoreTemplates/${competec.branch}/latest/daydeal/js">
+                <include name="**/*.js"/>
+            </fileset>
+        </copy>
+
+        <fileset id="javascript-files" dir="html/js">
+            <include name="*.js"/>
+            <exclude name="store.js"/>
+            <exclude name="jquery.js"/>
+        </fileset>
+
+        <concat destfile="html/js/store.js">
+            <filelist files="html/js/jquery.js" />
+            <filelist files="html/js/_namespace.js" />
+        </concat>
+
+        <pathconvert pathsep=" " property="javascript-files" refid="javascript-files" />
+        <exec executable="java" output="html/js/store.js" logError="true" append="true" failonerror="true">
+            <arg value="-jar" />
+            <arg path="buildHelper/closure-compiler/compiler.jar" />
+            <arg line="--js ${javascript-files}" />
+            <arg value="--compilation_level" />
+            <arg value="SIMPLE_OPTIMIZATIONS"/>
+        </exec>
+    </target>
+</project>
