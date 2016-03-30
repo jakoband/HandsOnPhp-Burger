@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * @covers Ingredient
+ */
 class IngredientTest extends PHPUnit_Framework_TestCase
 {
     /**

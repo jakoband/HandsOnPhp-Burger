@@ -1,6 +1,11 @@
 <?php
 
-
+/**
+ * @covers Recipe
+ * @uses HamburgerRecipe
+ * @uses CheeseburgerRecipe
+ * @uses IngredientNameCollection
+ */
 class RecipeTest extends PHPUnit_Framework_TestCase
 {
     /**

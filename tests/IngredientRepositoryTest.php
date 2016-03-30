@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @covers IngredientRepository
+ * @uses Ingredient
+ */
 class IngredientRepositoryTest extends PHPUnit_Framework_TestCase
 {
     private $repository;
