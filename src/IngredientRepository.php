@@ -16,10 +16,10 @@ class IngredientRepository
     ];
 
     /**
-     * @param $ingredientName
+     * @param string $ingredientName
      * @return IngredientInterface
      */
-    private function getIngredientByName($ingredientName)
+    public function getIngredient($ingredientName) : IngredientInterface
     {
         if (!$this->hasIngredient($ingredientName)) {
             throw new InvalidArgumentException(sprintf('Ingredient "%s" not found', $ingredientName));
@@ -31,7 +31,7 @@ class IngredientRepository
      * @param string $ingredientName
      * @return bool
      */
-    private function hasIngredient($ingredientName)
+    private function hasIngredient($ingredientName) : bool
     {
         if (0 === count($this->storage[$ingredientName])) {
             return false;
@@ -41,133 +41,27 @@ class IngredientRepository
     }
 
     /**
-     * @param Ingredient $ingredient
+     * @param IngredientInterface $ingredient
      * @return IngredientRepository
      */
-    private function addIngredient(Ingredient $ingredient)
+    public function addIngredient(IngredientInterface $ingredient) : IngredientRepository
     {
-        $name = (string) $ingredient;
-        array_unshift($this->storage[$name], $ingredient);
+        $this->ensureValidIngredient($ingredient);
+
+        array_unshift($this->storage[(string) $ingredient], $ingredient);
 
         return $this;
     }
 
     /**
-     * @param BreadBottomSide $breadBottomSide
-     * @return IngredientRepository
+     * @param IngredientInterface $ingredient
+     * @throws InvalidArgumentException
      */
-    public function addBreadBottomSide(BreadBottomSide $breadBottomSide)
+    private function ensureValidIngredient(IngredientInterface $ingredient)
     {
-        return $this->addIngredient($breadBottomSide);
-    }
-
-    /**
-     * @param BreadTopSide $breadTopSide
-     * @return IngredientRepository
-     */
-    public function addBreadTopSide(BreadTopSide $breadTopSide)
-    {
-        return $this->addIngredient($breadTopSide);
-    }
-
-    /**
-     * @param Cheese $cheese
-     * @return IngredientRepository
-     */
-    public function addCheese(Cheese $cheese)
-    {
-        return $this->addIngredient($cheese);
-    }
-
-    /**
-     * @param Patty $patty
-     * @return IngredientRepository
-     */
-    public function addPatty(Patty $patty)
-    {
-        return $this->addIngredient($patty);
-    }
-
-    /**
-     * @param Salad $salad
-     * @return IngredientRepository
-     */
-    public function addSalad(Salad $salad)
-    {
-        return $this->addIngredient($salad);
-    }
-
-    /**
-     * @param Sauce $sauce
-     * @return IngredientRepository
-     */
-    public function addSauce(Sauce $sauce)
-    {
-        return $this->addIngredient($sauce);
-    }
-
-    /**
-     * @param Tomato $tomato
-     * @return IngredientRepository
-     */
-    public function addTomato(Tomato $tomato)
-    {
-        return $this->addIngredient($tomato);
-    }
-
-    /**
-     * @return BreadBottomSide
-     */
-    public function getBreadBottomSide()
-    {
-        return $this->getIngredientByName('BreadBottomSide');
-    }
-
-    /**
-     * @return BreadTopSide
-     */
-    public function getBreadTopSide()
-    {
-        return $this->getIngredientByName('BreadTopSide');
-    }
-
-    /**
-     * @return Cheese
-     */
-    public function getCheese()
-    {
-        return $this->getIngredientByName('Cheese');
-    }
-
-    /**
-     * @return Patty
-     */
-    public function getPatty()
-    {
-        return $this->getIngredientByName('Patty');
-    }
-
-    /**
-     * @return Salad
-     */
-    public function getSalad()
-    {
-        return $this->getIngredientByName('Salad');
-    }
-
-    /**
-     * @return Sauce
-     */
-    public function getSauce()
-    {
-        return $this->getIngredientByName('Sauce');
-    }
-
-    /**
-     * @return Tomato
-     */
-    public function getTomato()
-    {
-        return $this->getIngredientByName('Tomato');
+        $name = (string) $ingredient;
+        if (!isset($this->storage[$name])) {
+            throw new InvalidArgumentException(sprintf('Ingredient "%s" can not be stored.', $name));
+        }
     }
 }

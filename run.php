@@ -1,23 +1,24 @@
 <?php
+// enforce strict
 
 require_once 'autoload.php';
 
 $ingredientRepository = new IngredientRepository();
 
 $ingredientRepository
-    ->addBreadBottomSide(new BreadBottomSide(20))
-    ->addBreadBottomSide(new BreadBottomSide(20))
-    ->addBreadTopSide(new BreadTopSide(25))
-    ->addBreadTopSide(new BreadTopSide(25))
-    ->addCheese(new Cheese(30))
-    ->addCheese(new Cheese(30))
-    ->addPatty(new Patty(80))
-    ->addSalad(new Salad(15))
-    ->addSalad(new Salad(15))
-    ->addSauce(new Sauce(15))
-    ->addSauce(new Sauce(15))
-    ->addTomato(new Tomato(10))
-    ->addTomato(new Tomato(10));
+    ->addIngredient(new BreadBottomSide(new Price(20, new ChfCurrency())))
+    ->addIngredient(new BreadBottomSide(new Price(20, new ChfCurrency())))
+    ->addIngredient(new BreadTopSide(new Price(25, new ChfCurrency())))
+    ->addIngredient(new BreadTopSide(new Price(25, new ChfCurrency())))
+    ->addIngredient(new Cheese(new Price(30, new ChfCurrency())))
+    ->addIngredient(new Cheese(new Price(30, new ChfCurrency())))
+    ->addIngredient(new Patty(new Price(80, new ChfCurrency())))
+    ->addIngredient(new Salad(new Price(15, new ChfCurrency())))
+    ->addIngredient(new Salad(new Price(15, new ChfCurrency())))
+    ->addIngredient(new Sauce(new Price(15, new ChfCurrency())))
+    ->addIngredient(new Sauce(new Price(15, new ChfCurrency())))
+    ->addIngredient(new Tomato(new Price(10, new ChfCurrency())))
+    ->addIngredient(new Tomato(new Price(10, new ChfCurrency())));
 
 $burgerBuilder = new BurgerBuilder($ingredientRepository);
 

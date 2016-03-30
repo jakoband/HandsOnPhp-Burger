@@ -33,8 +33,7 @@ class BurgerBuilder
         try {
 
             foreach ($ingredientsList->getIngredientNames() as $ingredientName) {
-                $getIngredientMethodName = 'get' . ucfirst($ingredientName);
-                $ingredients[] = $this->ingredientRepository->$getIngredientMethodName();
+                $ingredients[] = $this->ingredientRepository->getIngredient($ingredientName);
             }
             return new Burger(new IngredientCollection(...$ingredients));
 

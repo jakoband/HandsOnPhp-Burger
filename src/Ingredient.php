@@ -3,16 +3,16 @@
 abstract class Ingredient implements IngredientInterface
 {
     /**
-     * @var int
+     * @var Price
      */
-    private $priceInCents;
+    private $price;
 
     /**
-     * @param $priceInCents
+     * @param $price
      */
-    public function __construct($priceInCents)
+    public function __construct($price)
     {
-        $this->priceInCents = $priceInCents;
+        $this->price = $price;
     }
 
     /**
@@ -24,10 +24,10 @@ abstract class Ingredient implements IngredientInterface
     }
 
     /**
-     * @return int
+     * @return Price
      */
-    public function getPriceInCents()
+    public function getPrice()
     {
-        return $this->priceInCents;
+        return $this->price;
     }
 }

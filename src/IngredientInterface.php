@@ -10,5 +10,5 @@ interface IngredientInterface
     /**
      * @return int
      */
-    public function getPriceInCents();
+    public function getPrice();
 }

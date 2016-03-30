@@ -20,19 +20,24 @@ class Burger
      */
     public function __toString()
     {
-        return sprintf('Zutaten: %s, Preis: %d', (string) $this->ingredientCollection, $this->calculatePrice());
+        return sprintf(
+            'Zutaten: %s, Preis: %d',
+            (string) $this->ingredientCollection,
+            $this->calculatePrice()->getAmountInLowestUnit()
+        );
     }
 
     /**
-     * @return int
+     * @return Price
      */
-    private function calculatePrice()
+    private function calculatePrice() : Price
     {
-        $sum = 0;
+        $burgerPrice = new Price(0, new ChfCurrency());
+
         foreach ($this->ingredientCollection->getIngredients() as $ingredient) {
-            $sum += $ingredient->getPriceInCents();
+            $burgerPrice = $burgerPrice->add($ingredient->getPrice());
         }
 
-        return $sum;
+        return $burgerPrice;
     }
 }

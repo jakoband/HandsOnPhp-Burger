@@ -11,17 +11,15 @@ class IngredientRepositoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param $ingredientName
-     * @param $addMethod
      * @param Ingredient $ingredient
-     * @param $getMethod
      * @return IngredientInterface
      *
      * @dataProvider provideIngredientNames
      */
-    public function testAddIngredientsWorksForKnownIngredients($ingredientName, $addMethod, Ingredient $ingredient, $getMethod)
+    public function testAddIngredientsWorksForKnownIngredients($ingredientName, Ingredient $ingredient)
     {
-        $this->repository->$addMethod($ingredient);
-        $retrievedIngredient = $this->repository->$getMethod($ingredientName);
+        $this->repository->addIngredient($ingredient);
+        $retrievedIngredient = $this->repository->getIngredient($ingredientName);
         $this->assertInstanceOf($ingredientName, $retrievedIngredient);
 
         return $retrievedIngredient;
@@ -30,13 +28,13 @@ class IngredientRepositoryTest extends PHPUnit_Framework_TestCase
     public function provideIngredientNames()
     {
         return [
-            ['BreadBottomSide', 'addBreadBottomSide', new BreadBottomSide(10), 'getBreadBottomSide'],
-            ['Patty', 'addPatty', new Patty(10), 'getPatty'],
-            ['Tomato', 'addTomato', new Tomato(10), 'getTomato'],
-            ['Sauce', 'addSauce', new Sauce(10), 'getSauce'],
-            ['Salad', 'addSalad', new Salad(10), 'getSalad'],
-            ['Cheese', 'addCheese', new Cheese(10), 'getCheese'],
-            ['BreadTopSide', 'addBreadTopSide', new BreadTopSide(10), 'getBreadTopSide'],
+            ['BreadBottomSide', new BreadBottomSide(new Price(10, new ChfCurrency()))],
+            ['Patty', new Patty(new Price(10, new ChfCurrency()))],
+            ['Tomato', new Tomato(new Price(10, new ChfCurrency()))],
+            ['Sauce', new Sauce(new Price(10, new ChfCurrency()))],
+            ['Salad', new Salad(new Price(10, new ChfCurrency()))],
+            ['Cheese', new Cheese(new Price(10, new ChfCurrency()))],
+            ['BreadTopSide', new BreadTopSide(new Price(10, new ChfCurrency()))],
         ];
     }
 
@@ -45,6 +43,6 @@ class IngredientRepositoryTest extends PHPUnit_Framework_TestCase
      */
     public function testNotExistingIngredientThrowsException()
     {
-        $this->repository->getPatty();
+        $this->repository->getIngredient('Patty');
     }
 }
