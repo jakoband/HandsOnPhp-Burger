@@ -22,11 +22,11 @@ $ingredientRepository
 $burgerBuilder = new BurgerBuilder($ingredientRepository);
 
 $hamburgerRecipe = new HamburgerRecipe();
-$hamburger = $burgerBuilder->create($hamburgerRecipe);
+$hamburger = $burgerBuilder->build($hamburgerRecipe);
 echo 'Hamburger: ' . $hamburger . chr(10);
 
 $cheeseburgerRecipe = new CheeseburgerRecipe($ingredientRepository);
-$cheeseburger = $burgerBuilder->create($cheeseburgerRecipe);
+$cheeseburger = $burgerBuilder->build($cheeseburgerRecipe);
 if (!is_null($cheeseburger)) {
     echo 'Cheeseburger: ' . $cheeseburger . chr(10);
 }

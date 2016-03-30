@@ -27,7 +27,7 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
             ->method('getIngredientNameCollection')
             ->willReturn($ingredientNameCollection);
 
-        $this->burgerBuilder->create($this->recipe);
+        $this->burgerBuilder->build($this->recipe);
     }
 
     public function testValidIngredientsListCreatesBurger()
@@ -39,7 +39,7 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
         $this->repository->expects($this->once())->method('getBreadBottomSide')->willReturn(new BreadBottomSide(20));
         $this->repository->expects($this->once())->method('getBreadTopSide')->willReturn(new BreadTopSide(25));
 
-        $burger = $this->burgerBuilder->create($this->recipe);
+        $burger = $this->burgerBuilder->build($this->recipe);
         $this->assertInstanceOf(Burger::class, $burger);
 
         return $burger;
@@ -77,7 +77,7 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
         $this->repository->expects($this->once())->method('getBreadBottomSide')->willReturn(new BreadBottomSide(20));
         $this->repository->expects($this->once())->method('getBreadTopSide')->will($this->throwException(new Exception('Testmessage')));
 
-        $this->assertNull($this->burgerBuilder->create($this->recipe));
+        $this->assertNull($this->burgerBuilder->build($this->recipe));
 
         $this->expectOutputString('Burger "Testrezept" konnte nicht erstellt werden: Testmessage' . PHP_EOL);
     }

@@ -20,7 +20,7 @@ class BurgerBuilder
      * @return Burger
      * @throws Exception
      */
-    public function create(RecipeInterface $recipe)
+    public function build(RecipeInterface $recipe)
     {
         $ingredientsList = $recipe->getIngredientNameCollection();
 
