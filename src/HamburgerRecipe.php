@@ -1,29 +1,21 @@
 <?php
 
-class HamburgerRecipe implements RecipeInterface
+class HamburgerRecipe extends Recipe
 {
-    /**
-     * @var IngredientNameCollection
-     */
-    private $ingredientNameList;
-
-    public function __construct()
-    {
-        $this->ingredientNameList = new IngredientNameCollection(
-            'BreadBottomSide',
-            'Patty',
-            'Tomatoe',
-            'Sauce',
-            'Salad',
-            'BreadTopSide'
-        );
-    }
+    protected $ingredientNames = [
+        'BreadBottomSide',
+        'Patty',
+        'Tomato',
+        'Sauce',
+        'Salad',
+        'BreadTopSide'
+    ];
 
     /**
-     * @return IngredientNameCollection
+     * @return string
      */
-    public function getIngredientList()
+    public function getName()
     {
-        return $this->ingredientNameList;
+        return 'Hamburger';
     }
 }

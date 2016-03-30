@@ -1,30 +1,22 @@
 <?php
 
-class CheeseburgerRecipe implements RecipeInterface
+class CheeseburgerRecipe extends Recipe
 {
-    /**
-     * @var IngredientNameCollection
-     */
-    private $ingredientNameList;
-
-    public function __construct()
-    {
-        $this->ingredientNameList = new IngredientNameCollection(
-            'BreadBottomSide',
-            'Patty',
-            'Tomatoe',
-            'Sauce',
-            'Salad',
-            'Cheese',
-            'BreadTopSide'
-        );
-    }
+    protected $ingredientNames = [
+        'BreadBottomSide',
+        'Patty',
+        'Tomato',
+        'Sauce',
+        'Salad',
+        'Cheese',
+        'BreadTopSide'
+    ];
 
     /**
-     * @return IngredientNameCollection
+     * @return string
      */
-    public function getIngredientList()
+    public function getName()
     {
-        return $this->ingredientNameList;
+        return 'Cheeseburger';
     }
 }

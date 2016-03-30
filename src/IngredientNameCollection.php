@@ -16,18 +16,15 @@ class IngredientNameCollection
     }
 
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return implode(' + ', $this->ingredientNames);
-    }
-
-    /**
      * @return bool
      */
     public function hasIngredients()
     {
         return count($this->ingredientNames) > 0;
+    }
+
+    public function getIngredientNames()
+    {
+        return $this->ingredientNames;
     }
 }

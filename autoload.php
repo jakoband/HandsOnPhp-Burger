@@ -17,17 +17,18 @@ spl_autoload_register(
                 'hamburgerrecipe' => '/src/HamburgerRecipe.php',
                 'ingredient' => '/src/Ingredient.php',
                 'ingredientcollection' => '/src/IngredientCollection.php',
-                'ingredientfactorytest' => '/tests/IngredientFactoryTest.php',
                 'ingredientinterface' => '/src/IngredientInterface.php',
                 'ingredientnamecollection' => '/src/IngredientNameCollection.php',
                 'ingredientrepository' => '/src/IngredientRepository.php',
+                'ingredientrepositorytest' => '/tests/IngredientRepositoryTest.php',
                 'ingredienttest' => '/tests/IngredientTest.php',
                 'patty' => '/src/ingredients/Patty.php',
+                'recipe' => '/src/Recipe.php',
                 'recipeinterface' => '/src/RecipeInterface.php',
                 'recipetest' => '/tests/RecipeTest.php',
                 'salad' => '/src/ingredients/Salad.php',
                 'sauce' => '/src/ingredients/Sauce.php',
-                'tomatoe' => '/src/ingredients/Tomatoe.php'
+                'tomato' => '/src/ingredients/Tomato.php'
             );
         }
         $cn = strtolower($class);

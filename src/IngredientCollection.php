@@ -16,8 +16,19 @@ class IngredientCollection
         $this->ingredients = $ingredients;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return implode(' + ', $this->ingredients);
+    }
+
+    /**
+     * @return Ingredient[]
+     */
+    public function getIngredients()
+    {
+        return $this->ingredients;
     }
 }

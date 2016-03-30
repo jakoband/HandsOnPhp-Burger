@@ -4,19 +4,20 @@
 class RecipeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param $recipeClassName
-     * @param $expectedIngredients
+     * @param string $recipeClassName
+     * @param array $expectedIngredients
+     * @param string $recipeName
      *
      * @dataProvider providesRecipeClassNamesAndIngredientLists
      */
-    public function testRecipesAreCorrect($recipeClassName, $expectedIngredients)
+    public function testRecipesAreCorrect(string $recipeClassName, array $expectedIngredients, string $recipeName)
     {
+        /** @var RecipeInterface $recipe */
         $recipe = new $recipeClassName;
-        $testedRecipeIngredients = $recipe->getIngredientList();
+        $testedRecipeIngredientNames = $recipe->getIngredientNameCollection()->getIngredientNames();
 
-        foreach ($expectedIngredients as $key => $expectedIngredient) {
-            $this->assertEquals($expectedIngredient, $testedRecipeIngredients[$key]);
-        }
+        $this->assertEquals($expectedIngredients, $testedRecipeIngredientNames);
+        $this->assertEquals($recipeName, $recipe->getName());
     }
 
     public function providesRecipeClassNamesAndIngredientLists()
@@ -27,11 +28,12 @@ class RecipeTest extends PHPUnit_Framework_TestCase
                 [
                     BreadBottomSide::class,
                     Patty::class,
-                    Tomatoe::class,
+                    Tomato::class,
                     Sauce::class,
                     Salad::class,
                     BreadTopSide::class,
-                ]
+                ],
+                'Hamburger'
             ],
 
             [
@@ -39,12 +41,13 @@ class RecipeTest extends PHPUnit_Framework_TestCase
                 [
                     BreadBottomSide::class,
                     Patty::class,
-                    Tomatoe::class,
+                    Tomato::class,
                     Sauce::class,
                     Salad::class,
                     Cheese::class,
                     BreadTopSide::class,
-                ]
+                ],
+                'Cheeseburger'
             ],
         ];
     }

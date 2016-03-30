@@ -5,5 +5,10 @@ interface RecipeInterface
     /**
      * @return IngredientNameCollection
      */
-    public function getIngredientList();
+    public function getIngredientNameCollection();
+
+    /**
+     * @return string
+     */
+    public function getName();
 }
