@@ -6,6 +6,9 @@
  */
 class IngredientRepositoryTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var IngredientRepository
+     */
     private $repository;
 
     public function setUp()
@@ -48,5 +51,16 @@ class IngredientRepositoryTest extends PHPUnit_Framework_TestCase
     public function testNotExistingIngredientThrowsException()
     {
         $this->repository->getIngredient('Patty');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testAddingInvalidIngredientThrowsException()
+    {
+        $ingredient = $this->getMockBuilder(IngredientInterface::class)->disableOriginalConstructor()->getMock();
+        $ingredient->expects($this->once())->method('__toString')->willReturn('Chair');
+
+        $this->repository->addIngredient($ingredient);
     }
 }

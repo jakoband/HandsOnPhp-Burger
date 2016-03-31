@@ -8,7 +8,7 @@ class Price
     private $amountInLowestUnit;
 
     /**
-     * @var Currency
+     * @var CurrencyInterface
      */
     private $currency;
 
@@ -80,4 +80,4 @@ class Price
             throw new Exception('Price must be greater than zero');
         }
     }
-}    
+}

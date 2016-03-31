@@ -42,5 +42,7 @@ class BurgerBuilder
             echo sprintf('Burger "%s" konnte nicht erstellt werden: %s', $recipe->getName(), $e->getMessage());
             echo PHP_EOL;
         }
+
+        return null;
     }
-}    
+}
