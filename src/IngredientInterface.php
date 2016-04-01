@@ -5,10 +5,10 @@ interface IngredientInterface
     /**
      * @return string
      */
-    public function __toString();
+    public function __toString() : string;
 
     /**
      * @return Price
      */
-    public function getPrice();
+    public function getPrice() : Price;
 }

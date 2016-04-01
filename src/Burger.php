@@ -3,16 +3,30 @@
 class Burger
 {
     /**
-     * @var IngredientCollection
+     * @var IngredientInterface[]
      */
-    private $ingredientCollection;
+    private $ingredients;
 
     /**
-     * @param IngredientCollection $ingredientCollection
+     * @param IngredientInterface[] $ingredients
      */
-    public function __construct(IngredientCollection $ingredientCollection)
+    public function __construct(IngredientInterface ...$ingredients)
     {
-        $this->ingredientCollection = $ingredientCollection;
+        $this->ensureIngredients($ingredients);
+
+        $this->ingredients = $ingredients;
+    }
+
+    /**
+     * @param array $ingredients
+     *
+     * @throws InvalidArgumentException
+     */
+    private function ensureIngredients(array $ingredients)
+    {
+        if (0 === count($ingredients)) {
+            throw new InvalidArgumentException('Burger without ingredients is no burger.');
+        }
     }
 
     /**
@@ -22,8 +36,7 @@ class Burger
     {
         $burgerPrice = new Price(0, new ChfCurrency());
 
-        foreach ($this->ingredientCollection->getIngredients() as $ingredient) {
-            /** @var IngredientInterface $ingredient */
+        foreach ($this->ingredients as $ingredient) {
             $burgerPrice = $burgerPrice->add($ingredient->getPrice());
         }
 
@@ -31,10 +44,10 @@ class Burger
     }
 
     /**
-     * @return IngredientCollection
+     * @return IngredientInterface[]
      */
-    public function getIngredients() : IngredientCollection
+    public function getIngredients() : array
     {
-        return $this->ingredientCollection;
+        return $this->ingredients;
     }
 }

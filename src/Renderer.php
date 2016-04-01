@@ -24,4 +24,3 @@ class Renderer
         echo $errorMessage . PHP_EOL;
     }
 }
-

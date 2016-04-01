@@ -4,7 +4,6 @@
  * @covers BurgerBuilder
  * @uses Burger
  * @uses Ingredient
- * @uses IngredientCollection
  * @uses IngredientNameCollection
  * @uses Price
  * @uses ChfCurrency

@@ -14,6 +14,7 @@ spl_autoload_register(
                 'burgerbuildertest' => '/tests/BurgerBuilderTest.php',
                 'burgertest' => '/tests/BurgerTest.php',
                 'burgerviewmodel' => '/src/BurgerViewModel.php',
+                'burgerviewmodeltest' => '/tests/BurgerViewModelTest.php',
                 'cheese' => '/src/ingredients/Cheese.php',
                 'cheeseburgerrecipe' => '/src/CheeseburgerRecipe.php',
                 'chfcurrency' => '/src/ChfCurrency.php',
@@ -21,7 +22,6 @@ spl_autoload_register(
                 'currencyinterface' => '/src/CurrencyInterface.php',
                 'hamburgerrecipe' => '/src/HamburgerRecipe.php',
                 'ingredient' => '/src/Ingredient.php',
-                'ingredientcollection' => '/src/IngredientCollection.php',
                 'ingredientcollectiontest' => '/tests/IngredientCollectionTest.php',
                 'ingredientinterface' => '/src/IngredientInterface.php',
                 'ingredientnamecollection' => '/src/IngredientNameCollection.php',
@@ -36,6 +36,7 @@ spl_autoload_register(
                 'recipeinterface' => '/src/RecipeInterface.php',
                 'recipetest' => '/tests/RecipeTest.php',
                 'renderer' => '/src/Renderer.php',
+                'renderertest' => '/tests/RendererTest.php',
                 'salad' => '/src/ingredients/Salad.php',
                 'sauce' => '/src/ingredients/Sauce.php',
                 'tomato' => '/src/ingredients/Tomato.php'

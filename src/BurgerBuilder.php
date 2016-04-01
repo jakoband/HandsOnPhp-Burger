@@ -20,7 +20,7 @@ class BurgerBuilder
      * @return Burger
      * @throws Exception
      */
-    public function build(RecipeInterface $recipe)
+    public function build(RecipeInterface $recipe) : Burger
     {
         $ingredientsList = $recipe->getIngredientNameCollection();
 
@@ -33,6 +33,6 @@ class BurgerBuilder
         foreach ($ingredientsList->getIngredientNames() as $ingredientName) {
             $ingredients[] = $this->ingredientRepository->getIngredient($ingredientName);
         }
-        return new Burger(new IngredientCollection(...$ingredients));
+        return new Burger(...$ingredients);
     }
 }

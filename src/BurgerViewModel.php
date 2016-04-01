@@ -33,7 +33,7 @@ class BurgerViewModel
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -41,7 +41,7 @@ class BurgerViewModel
     /**
      * @return string
      */
-    public function getFormattedPrice()
+    public function getFormattedPrice() : string
     {
         return $this->formattedPrice;
     }
@@ -49,7 +49,7 @@ class BurgerViewModel
     /**
      * @return string
      */
-    public function getIngredients()
+    public function getIngredients() : string
     {
         return $this->ingredients;
     }

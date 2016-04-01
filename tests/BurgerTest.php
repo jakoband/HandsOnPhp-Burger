@@ -3,7 +3,6 @@
 /**
  * @covers Burger
  * @uses Ingredient
- * @uses IngredientCollection
  * @uses ChfCurrency
  * @uses Salad
  * @uses Patty
@@ -16,13 +15,12 @@ class BurgerTest extends PHPUnit_Framework_TestCase
     public function testBurgerPrice()
     {
         $chfCurrency = new ChfCurrency();
-        $ingredientCollection = new IngredientCollection(
+
+        $burger = new Burger(
             new Salad(new Price(10, $chfCurrency)),
             new Patty(new Price(20, $chfCurrency)),
             new BreadTopSide(new Price(10, $chfCurrency))
         );
-
-        $burger = new Burger($ingredientCollection);
 
         $this->assertEquals(40, $burger->getPrice()->getAmountInLowestUnit());
 
@@ -30,11 +28,13 @@ class BurgerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param Burger $burger
+     *
      * @depends testBurgerPrice
      */
     public function testGetBurgerIngredients(Burger $burger)
     {
-        $ingredients = $burger->getIngredients()->getIngredients();
+        $ingredients = $burger->getIngredients();
 
         $this->assertCount(3, $ingredients);
 
@@ -46,5 +46,13 @@ class BurgerTest extends PHPUnit_Framework_TestCase
 
         $breadTopSide = $ingredients[2];
         $this->assertInstanceOf(BreadTopSide::class, $breadTopSide);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testEmptyIngredientsBurgerThrowsException()
+    {
+        new Burger();
     }
 }

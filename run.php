@@ -39,7 +39,7 @@ foreach ($burgerRecipesToBuild as $recipe) {
             $recipe->getName(),
             // ToDo: add price formatter with currency
             'CHF ' . round($burger->getPrice()->getAmountInLowestUnit()/100, 2),
-            implode(' + ', $burger->getIngredients()->getIngredients())
+            implode(' + ', $burger->getIngredients())
         );
         $renderer->render($burgerViewModel);
 
