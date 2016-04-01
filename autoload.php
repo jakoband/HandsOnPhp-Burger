@@ -33,10 +33,12 @@ spl_autoload_register(
                 'ingredienttest' => '/tests/IngredientTest.php',
                 'invalidingredientexception' => '/src/Exceptions/InvalidIngredientException.php',
                 'missingingredientexception' => '/src/Exceptions/MissingIngredientException.php',
+                'numberformatinterface' => '/src/NumberFormatInterface.php',
                 'patty' => '/src/ingredients/Patty.php',
                 'plaintextburgerrenderer' => '/src/PlaintextBurgerRenderer.php',
                 'plaintextburgerrenderertest' => '/tests/PlaintextBurgerRendererTest.php',
                 'price' => '/src/Price.php',
+                'priceformatterinterface' => '/src/PriceFormatterInterface.php',
                 'pricetest' => '/tests/PriceTest.php',
                 'recipe' => '/src/Recipe.php',
                 'recipeexception' => '/src/Exceptions/RecipeException.php',
@@ -44,6 +46,8 @@ spl_autoload_register(
                 'recipetest' => '/tests/RecipeTest.php',
                 'salad' => '/src/ingredients/Salad.php',
                 'sauce' => '/src/ingredients/Sauce.php',
+                'swissnumberformat' => '/src/SwissNumberFormat.php',
+                'swisspriceformatter' => '/src/SwissPriceFormatter.php',
                 'tomato' => '/src/ingredients/Tomato.php',
                 'unavailableingredientexception' => '/src/Exceptions/UnavailableIngredientException.php'
             );

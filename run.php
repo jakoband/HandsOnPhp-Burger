@@ -7,7 +7,7 @@ $ingredientRepository = new IngredientRepository();
 $currency = new ChfCurrency();
 
 $ingredientRepository
-    ->addIngredient(new BreadBottomSide(new Price(20, $currency)))
+    ->addIngredient(new BreadBottomSide(new Price(200000, $currency)))
     ->addIngredient(new BreadBottomSide(new Price(20, $currency)))
     ->addIngredient(new BreadTopSide(new Price(25, $currency)))
     ->addIngredient(new BreadTopSide(new Price(25, $currency)))
@@ -28,25 +28,25 @@ $burgerRecipesToBuild = [
     new CheeseburgerRecipe()
 ];
 
-$renderer = new PlaintextBurgerRenderer();
+$priceFormatter = new SwissPriceFormatter(new SwissNumberFormat());
+$renderer = new PlaintextBurgerRenderer($priceFormatter);
 
 foreach ($burgerRecipesToBuild as $recipe) {
     /** @var RecipeInterface $recipe */
 
     try {
         $burger = $burgerBuilder->build($recipe);
-        // ToDo: add burger to viewmodel converter
-        $burgerViewModel = new BurgerViewModel(
-            $recipe->getName(),
-            // ToDo: add price formatter with currency
-            'CHF ' . round($burger->getPrice($currency)->getAmountInLowestUnit()/100, 2),
-            implode(' + ', $burger->getIngredients())
-        );
+
+        $burgerPrice = $priceFormatter->formatPriceFromLowestUnit($burger->getPrice($currency)->getAmountInLowestUnit());
+        $burgerIngredients = implode(' + ', $burger->getIngredients());
+
+        $burgerViewModel = new BurgerViewModel($recipe->getName(), $burgerPrice, $burgerIngredients);
+
         echo $renderer->render($burgerViewModel);
 
     } catch (Exception $e) {
         printf(
-            '"%s" konnte nicht zubereitet werden. Meldung: \'%s\'',
+            '"%s" konnte nicht zubereitet werden. Meldung: \'%s\'' . PHP_EOL,
             $recipe->getName(),
             $e->getMessage()
         );
