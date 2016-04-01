@@ -3,15 +3,15 @@
 class IngredientCollection
 {
     /**
-     * @var Ingredient[]
+     * @var IngredientInterface[]
      */
     private $ingredients;
 
     /**
      * IngredientCollection constructor.
-     * @param Ingredient[] ...$ingredients
+     * @param IngredientInterface[] ...$ingredients
      */
-    public function __construct(Ingredient ...$ingredients)
+    public function __construct(IngredientInterface ...$ingredients)
     {
         $this->ingredients = $ingredients;
     }
@@ -25,7 +25,7 @@ class IngredientCollection
     }
 
     /**
-     * @return Ingredient[]
+     * @return IngredientInterface[]
      */
     public function getIngredients()
     {

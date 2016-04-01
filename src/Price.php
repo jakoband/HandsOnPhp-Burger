@@ -15,11 +15,11 @@ class Price
     /**
      * @param int $amountInLowestUnit
      * @param CurrencyInterface $currency
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function __construct(int $amountInLowestUnit, CurrencyInterface $currency)
     {
-        $this->ensureGreaterThanZero($amountInLowestUnit);
+        $this->ensureGreaterOrEqualZero($amountInLowestUnit);
 
         $this->amountInLowestUnit = $amountInLowestUnit;
         $this->currency = $currency;
@@ -50,7 +50,7 @@ class Price
     /**
      * @return CurrencyInterface
      */
-    public function getCurrency()
+    public function getCurrency() : CurrencyInterface
     {
         return $this->currency;
     }
@@ -72,12 +72,12 @@ class Price
 
     /**
      * @param int $amountInLowestUnit
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
-    private function ensureGreaterThanZero(int $amountInLowestUnit)
+    private function ensureGreaterOrEqualZero(int $amountInLowestUnit)
     {
         if ($amountInLowestUnit < 0) {
-            throw new Exception('Price must be greater than zero');
+            throw new InvalidArgumentException(sprintf('Amount "%d" must be greater than zero', $amountInLowestUnit));
         }
     }
 }

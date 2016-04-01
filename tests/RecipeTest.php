@@ -2,8 +2,8 @@
 
 /**
  * @covers Recipe
- * @uses HamburgerRecipe
- * @uses CheeseburgerRecipe
+ * @covers HamburgerRecipe
+ * @covers CheeseburgerRecipe
  * @uses IngredientNameCollection
  */
 class RecipeTest extends PHPUnit_Framework_TestCase

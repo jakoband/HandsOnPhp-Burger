@@ -18,12 +18,15 @@ class IngredientNameCollection
     /**
      * @return bool
      */
-    public function hasIngredients()
+    public function hasIngredients() : bool
     {
         return count($this->ingredientNames) > 0;
     }
 
-    public function getIngredientNames()
+    /**
+     * @return String[]
+     */
+    public function getIngredientNames() : array
     {
         return $this->ingredientNames;
     }

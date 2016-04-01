@@ -2,7 +2,10 @@
 
 class ChfCurrency implements CurrencyInterface
 {
-    public function getCode()
+    /**
+     * @return string
+     */
+    public function getCode() : string
     {
         return 'CHF';
     }

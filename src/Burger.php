@@ -23,14 +23,14 @@ class Burger
         return sprintf(
             'Zutaten: %s, Preis: %d',
             (string) $this->ingredientCollection,
-            $this->calculatePrice()->getAmountInLowestUnit()
+            $this->getPrice()->getAmountInLowestUnit()
         );
     }
 
     /**
      * @return Price
      */
-    private function calculatePrice() : Price
+    public function getPrice() : Price
     {
         $burgerPrice = new Price(0, new ChfCurrency());
 

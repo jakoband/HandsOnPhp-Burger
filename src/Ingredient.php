@@ -8,9 +8,9 @@ abstract class Ingredient implements IngredientInterface
     private $price;
 
     /**
-     * @param $price
+     * @param Price $price
      */
-    public function __construct($price)
+    public function __construct(Price $price)
     {
         $this->price = $price;
     }
@@ -18,7 +18,7 @@ abstract class Ingredient implements IngredientInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return get_class($this);
     }
@@ -26,7 +26,7 @@ abstract class Ingredient implements IngredientInterface
     /**
      * @return Price
      */
-    public function getPrice()
+    public function getPrice() : Price
     {
         return $this->price;
     }
