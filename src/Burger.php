@@ -18,10 +18,18 @@ class Burger
      */
     public function __construct(string $name, IngredientInterface ...$ingredients)
     {
+        $this->ensureNonEmptyName($name);
         $this->name = $name;
 
         $this->ensureIngredients($ingredients);
         $this->ingredients = $ingredients;
+    }
+
+    private function ensureNonEmptyName($name)
+    {
+        if ($name === '') {
+            throw new InvalidArgumentException('Name of the burger cannot be empty.');
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-class HamburgerRecipe extends Recipe
+class HamburgerRecipe implements RecipeInterface
 {
     protected $ingredientNames = [
         'BreadBottomSide',
@@ -17,5 +17,13 @@ class HamburgerRecipe extends Recipe
     public function getName()
     {
         return 'Hamburger';
+    }
+
+    /**
+     * @return IngredientNameCollection
+     */
+    public function getIngredientNameCollection()
+    {
+        return new IngredientNameCollection(...$this->ingredientNames);
     }
 }

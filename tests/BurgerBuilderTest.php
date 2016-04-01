@@ -16,7 +16,10 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->repository = $this->getMockBuilder('IngredientRepository')->disableOriginalConstructor()->getMock();
+        $this->repository = $this->getMockBuilder('IngredientRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->recipe = $this->getMockBuilder(RecipeInterface::class)->getMock();
 
         $this->burgerBuilder = new BurgerBuilder($this->repository);
@@ -24,8 +27,13 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
 
     public function testEmptyIngredientsListThrowsException()
     {
-        $ingredientNameCollection = $this->getMockBuilder(IngredientNameCollection::class)->disableOriginalConstructor()->getMock();
-        $ingredientNameCollection->expects($this->once())->method('hasIngredients')->willReturn(false);
+        $ingredientNameCollection = $this->getMockBuilder(IngredientNameCollection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $ingredientNameCollection->expects($this->once())
+            ->method('hasIngredients')
+            ->willReturn(false);
 
         $this->recipe->expects($this->once())
             ->method('getIngredientNameCollection')
@@ -44,8 +52,13 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
             ->method('getName')
             ->willReturn('Testburger');
 
-        $this->repository->expects($this->at(0))->method('getIngredient')->willReturn(new BreadBottomSide(new Price(20, new ChfCurrency())));
-        $this->repository->expects($this->at(1))->method('getIngredient')->willReturn(new BreadTopSide(new Price(25, new ChfCurrency())));
+        $this->repository->expects($this->at(0))
+            ->method('getIngredient')
+            ->willReturn(new BreadBottomSide(new Price(20, new ChfCurrency())));
+
+        $this->repository->expects($this->at(1))
+            ->method('getIngredient')
+            ->willReturn(new BreadTopSide(new Price(25, new ChfCurrency())));
 
         $burger = $this->burgerBuilder->build($this->recipe);
         $this->assertInstanceOf(Burger::class, $burger);
@@ -74,8 +87,12 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
             ->method('getIngredientNameCollection')
             ->willReturn($ingredientNameCollection);
 
-        $this->repository->expects($this->at(0))->method('getIngredient')->willReturn(new BreadBottomSide(new Price(20, new ChfCurrency())));
-        $this->repository->expects($this->at(1))->method('getIngredient')->will($this->throwException(new Exception('Testmessage')));
+        $this->repository->expects($this->at(0))
+            ->method('getIngredient')
+            ->willReturn(new BreadBottomSide(new Price(20, new ChfCurrency())));
+        $this->repository->expects($this->at(1))
+            ->method('getIngredient')
+            ->will($this->throwException(new Exception('Testmessage')));
 
         $this->burgerBuilder->build($this->recipe);
     }

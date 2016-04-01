@@ -12,7 +12,7 @@
 class BurgerTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBurgerPrice()
+    public function testBurgerPriceIsCalculatedCorrectly()
     {
         $chfCurrency = new ChfCurrency();
 
@@ -31,7 +31,7 @@ class BurgerTest extends PHPUnit_Framework_TestCase
     /**
      * @param Burger $burger
      *
-     * @depends testBurgerPrice
+     * @depends testBurgerPriceIsCalculatedCorrectly
      */
     public function testGetBurgerIngredients(Burger $burger)
     {
@@ -53,5 +53,28 @@ class BurgerTest extends PHPUnit_Framework_TestCase
     {
         $this->expectException(MissingIngredientException::class);
         new Burger('TestBurger');
+    }
+
+    /**
+     * @param Burger $burger
+     *
+     * @depends testBurgerPriceIsCalculatedCorrectly
+     */
+    public function testBurgerNameCanBeRetrieved(Burger $burger)
+    {
+        $this->assertEquals('TestBurger', $burger->getName());
+    }
+
+    public function testCreationOfBurgerWithEmptyNameThrowsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $chfCurrency = new ChfCurrency();
+        new Burger(
+            '',
+            new Salad(new Price(10, $chfCurrency)),
+            new Patty(new Price(20, $chfCurrency)),
+            new BreadTopSide(new Price(10, $chfCurrency))
+        );
     }
 }
