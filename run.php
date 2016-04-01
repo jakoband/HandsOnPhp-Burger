@@ -34,6 +34,7 @@ foreach ($burgerRecipesToBuild as $recipe) {
 
     try {
         $burger = $burgerBuilder->build($recipe);
+        // ToDo: add burger to viewmodel converter
         $burgerViewModel = new BurgerViewModel(
             $recipe->getName(),
             // ToDo: add price formatter with currency
