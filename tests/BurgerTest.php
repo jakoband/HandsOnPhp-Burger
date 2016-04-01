@@ -31,7 +31,7 @@ class BurgerTest extends PHPUnit_Framework_TestCase
     /**
      * @param Burger $burger
      *
-     * @depends testBurgerPrice
+     * @depends testBurgerPriceIsCalculatedCorrectly
      */
     public function testGetBurgerIngredients(Burger $burger)
     {
@@ -58,7 +58,7 @@ class BurgerTest extends PHPUnit_Framework_TestCase
     /**
      * @param Burger $burger
      *
-     * @depends testBurgerPrice
+     * @depends testBurgerPriceIsCalculatedCorrectly
      */
     public function testBurgerNameCanBeRetrieved(Burger $burger)
     {

@@ -26,10 +26,9 @@ class IngredientNameCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($ingredientNameCollection->hasIngredients());
     }
 
-    public function testEmptyIngredientNameCollectionDoesNotHaveIngredients()
+    public function testEmptyIngredientNameCollectionThrowsException()
     {
-        $emptyIngredientNameCollection = new IngredientNameCollection();
-
-        $this->assertFalse($emptyIngredientNameCollection->hasIngredients());
+        $this->expectException(EmptyCollectionException::class);
+        new IngredientNameCollection();
     }
 }

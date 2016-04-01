@@ -1,8 +1,8 @@
 <?php
 
-class CheeseburgerRecipe extends Recipe
+class CheeseburgerRecipe implements RecipeInterface
 {
-    protected $ingredientNames = [
+    private $ingredientNames = [
         'BreadBottomSide',
         'Patty',
         'Tomato',
@@ -18,5 +18,13 @@ class CheeseburgerRecipe extends Recipe
     public function getName()
     {
         return 'Cheeseburger';
+    }
+
+    /**
+     * @return IngredientNameCollection
+     */
+    public function getIngredientNameCollection()
+    {
+        return new IngredientNameCollection(...$this->ingredientNames);
     }
 }
