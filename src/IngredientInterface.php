@@ -8,7 +8,7 @@ interface IngredientInterface
     public function __toString();
 
     /**
-     * @return int
+     * @return Price
      */
     public function getPrice();
 }

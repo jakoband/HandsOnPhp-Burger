@@ -27,15 +27,27 @@ $burgerRecipesToBuild = [
     new CheeseburgerRecipe()
 ];
 
+$renderer = new Renderer();
+
 foreach ($burgerRecipesToBuild as $recipe) {
     /** @var RecipeInterface $recipe */
 
     try {
         $burger = $burgerBuilder->build($recipe);
-        echo sprintf('"%s": %s' . PHP_EOL, $recipe->getName(), (string) $burger);
+        $burgerViewModel = new BurgerViewModel(
+            $recipe->getName(),
+            // ToDo: add price formatter with currency
+            'CHF ' . round($burger->getPrice()->getAmountInLowestUnit()/100, 2),
+            implode(' + ', $burger->getIngredients()->getIngredients())
+        );
+        $renderer->render($burgerViewModel);
 
     } catch (Exception $e) {
-        echo sprintf('"%s" konnte nicht zubereitet werden. Meldung: "%s"' . PHP_EOL, $recipe->getName(), $e->getMessage());
+        $renderer->renderErrorMessage(sprintf(
+            '"%s" konnte nicht zubereitet werden. Meldung: \'%s\'',
+            $recipe->getName(),
+            $e->getMessage()
+        ));
     }
 }
 

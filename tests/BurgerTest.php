@@ -30,12 +30,21 @@ class BurgerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Burger $burger
-     *
      * @depends testBurgerPrice
      */
-    public function testBurgerStringRepresentation(Burger $burger)
+    public function testGetBurgerIngredients(Burger $burger)
     {
-        $this->assertEquals('Zutaten: Salad + Patty + BreadTopSide, Preis: 40', (string) $burger);
+        $ingredients = $burger->getIngredients()->getIngredients();
+
+        $this->assertCount(3, $ingredients);
+
+        $salad = $ingredients[0];
+        $this->assertInstanceOf(Salad::class, $salad);
+
+        $patty = $ingredients[1];
+        $this->assertInstanceOf(Patty::class, $patty);
+
+        $breadTopSide = $ingredients[2];
+        $this->assertInstanceOf(BreadTopSide::class, $breadTopSide);
     }
 }

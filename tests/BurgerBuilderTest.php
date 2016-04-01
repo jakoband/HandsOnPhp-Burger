@@ -54,16 +54,6 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $burger
-     *
-     * @depends testValidIngredientsListCreatesBurger
-     */
-    public function testStringRepresentationOfBurger($burger)
-    {
-        $this->assertEquals('Zutaten: BreadBottomSide + BreadTopSide, Preis: 45', (string) $burger);
-    }
-
-    /**
      * @expectedException Exception
      */
     public function testBurgerBuildingWithInsufficientIngredientsThrowsException()
