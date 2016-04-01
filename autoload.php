@@ -21,6 +21,8 @@ spl_autoload_register(
                 'chfcurrency' => '/src/ChfCurrency.php',
                 'chfcurrencytest' => '/tests/ChfCurrencyTest.php',
                 'currencyinterface' => '/src/CurrencyInterface.php',
+                'fakeburgerrecipewithinvalidingredients' => '/tests/FakeBurgerRecipeWithInvalidIngredients.php',
+                'fakeburgerrecipewithoutingredients' => '/tests/FakeBurgerRecipeWithoutIngredients.php',
                 'hamburgerrecipe' => '/src/HamburgerRecipe.php',
                 'illegalamountexception' => '/src/Exceptions/IllegalAmountException.php',
                 'incompatiblecurrencyexception' => '/src/Exceptions/IncompatibleCurrencyException.php',

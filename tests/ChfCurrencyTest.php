@@ -4,7 +4,7 @@
 class ChfCurrencyTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testCurrencyIsoCode()
+    public function testCurrencyReturnsExpectedIsoCode()
     {
         $chfCurrency = new ChfCurrency();
 
