@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @covers Recipe
  * @covers HamburgerRecipe
  * @covers CheeseburgerRecipe
  * @uses IngredientNameCollection
@@ -56,19 +55,4 @@ class RecipeTest extends PHPUnit_Framework_TestCase
             ],
         ];
     }
-
-    public function testCreationOfRecipeWithInvalidIngredientNamesThrowsException()
-    {
-        $this->expectException(RecipeException::class);
-        $this->expectExceptionMessage('Recipe "FakeBurger" contains of ingredient names that are not strings.');
-        new FakeBurgerRecipeWithInvalidIngredients();
-    }
-
-    public function testCreationOfRecipeWithNoIngredientsThrowsException()
-    {
-        $this->expectException(RecipeException::class);
-        $this->expectExceptionMessage('Recipe "FakeBurger" is not valid without ingredient names.');
-        new FakeBurgerRecipeWithoutIngredients();
-    }
-
 }
