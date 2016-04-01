@@ -1,26 +1,20 @@
 <?php
 
 
-class Renderer
+class PlaintextBurgerRenderer
 {
     /**
      * @param BurgerViewModel $burgerViewModel
+     *
+     * @return string
      */
     public function render(BurgerViewModel $burgerViewModel)
     {
-        echo sprintf(
+        return sprintf(
             '"%s": Zutaten: %s, Preis: %s' . PHP_EOL,
             $burgerViewModel->getName(),
             $burgerViewModel->getIngredients(),
             $burgerViewModel->getFormattedPrice()
         );
-    }
-
-    /**
-     * @param string $errorMessage
-     */
-    public function renderErrorMessage(string $errorMessage)
-    {
-        echo $errorMessage . PHP_EOL;
     }
 }

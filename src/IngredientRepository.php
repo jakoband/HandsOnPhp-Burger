@@ -18,11 +18,13 @@ class IngredientRepository
     /**
      * @param string $ingredientName
      * @return IngredientInterface
+     *
+     * @throws UnavailableIngredientException
      */
     public function getIngredient($ingredientName) : IngredientInterface
     {
         if (!$this->hasIngredient($ingredientName)) {
-            throw new InvalidArgumentException(sprintf('Zutat "%s" ist nicht mehr vorhanden', $ingredientName));
+            throw new UnavailableIngredientException(sprintf('Zutat "%s" ist nicht mehr vorhanden', $ingredientName));
         }
         return array_pop($this->storage[$ingredientName]);
     }
@@ -55,13 +57,13 @@ class IngredientRepository
 
     /**
      * @param IngredientInterface $ingredient
-     * @throws InvalidArgumentException
+     * @throws InvalidIngredientException
      */
     private function ensureValidIngredient(IngredientInterface $ingredient)
     {
         $name = (string) $ingredient;
         if (!isset($this->storage[$name])) {
-            throw new InvalidArgumentException(sprintf('"%s" ist keine erlaubte Zutat.', $name));
+            throw new InvalidIngredientException(sprintf('"%s" ist keine erlaubte Zutat.', $name));
         }
     }
 }

@@ -8,33 +8,41 @@ class Burger
     private $ingredients;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @param string $name
      * @param IngredientInterface[] $ingredients
      */
-    public function __construct(IngredientInterface ...$ingredients)
+    public function __construct(string $name, IngredientInterface ...$ingredients)
     {
-        $this->ensureIngredients($ingredients);
+        $this->name = $name;
 
+        $this->ensureIngredients($ingredients);
         $this->ingredients = $ingredients;
     }
 
     /**
      * @param array $ingredients
      *
-     * @throws InvalidArgumentException
+     * @throws MissingIngredientException
      */
     private function ensureIngredients(array $ingredients)
     {
         if (0 === count($ingredients)) {
-            throw new InvalidArgumentException('Burger without ingredients is no burger.');
+            throw new MissingIngredientException('Burger without ingredients is no burger.');
         }
     }
 
     /**
+     * @param CurrencyInterface $currency
      * @return Price
      */
-    public function getPrice() : Price
+    public function getPrice(CurrencyInterface $currency) : Price
     {
-        $burgerPrice = new Price(0, new ChfCurrency());
+        $burgerPrice = new Price(0, $currency);
 
         foreach ($this->ingredients as $ingredient) {
             $burgerPrice = $burgerPrice->add($ingredient->getPrice());
@@ -49,5 +57,13 @@ class Burger
     public function getIngredients() : array
     {
         return $this->ingredients;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

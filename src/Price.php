@@ -57,12 +57,12 @@ class Price
 
     /**
      * @param Price $price
-     * @throws InvalidArgumentException
+     * @throws IncompatibleCurrencyException
      */
     private function ensureSameCurrency(Price $price)
     {
         if ($price->getCurrency()->getCode() !== $this->getCurrency()->getCode()) {
-            throw new InvalidArgumentException(sprintf(
+            throw new IncompatibleCurrencyException(sprintf(
                 'Currency "%s" cannot be added to currency "%s"',
                 $price->getCurrency()->getCode(),
                 $this->getCurrency()->getCode()
@@ -72,12 +72,12 @@ class Price
 
     /**
      * @param int $amountInLowestUnit
-     * @throws InvalidArgumentException
+     * @throws IllegalAmountException
      */
     private function ensureGreaterOrEqualZero(int $amountInLowestUnit)
     {
         if ($amountInLowestUnit < 0) {
-            throw new InvalidArgumentException(sprintf('Amount "%d" must be greater than zero', $amountInLowestUnit));
+            throw new IllegalAmountException(sprintf('Amount "%d" must be greater than zero', $amountInLowestUnit));
         }
     }
 }

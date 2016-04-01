@@ -45,22 +45,18 @@ class IngredientRepositoryTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function testNotExistingIngredientThrowsException()
     {
+        $this->expectException(UnavailableIngredientException::class);
         $this->repository->getIngredient('Patty');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testAddingInvalidIngredientThrowsException()
     {
         $ingredient = $this->getMockBuilder(IngredientInterface::class)->disableOriginalConstructor()->getMock();
         $ingredient->expects($this->once())->method('__toString')->willReturn('Chair');
 
+        $this->expectException(InvalidIngredientException::class);
         $this->repository->addIngredient($ingredient);
     }
 }

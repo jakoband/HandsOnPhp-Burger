@@ -22,12 +22,11 @@ class PriceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($currency, $price->getCurrency());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testNegativeAmountThrowsException()
     {
         $currency = $this->getMockBuilder(CurrencyInterface::class)->disableOriginalConstructor()->getMock();
+
+        $this->expectException(IllegalAmountException::class);
         new Price(-200, $currency);
     }
 
@@ -45,9 +44,6 @@ class PriceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($currency, $newPrice->getCurrency());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testAddFailsWithDifferentCurrencies()
     {
         $currency1 = $this->getMockBuilder(CurrencyInterface::class)->disableOriginalConstructor()->getMock();
@@ -59,6 +55,7 @@ class PriceTest extends PHPUnit_Framework_TestCase
         $price1 = new Price(200, $currency1);
         $price2 = new Price(100, $currency2);
 
+        $this->expectException(IncompatibleCurrencyException::class);
         $price1->add($price2);
     }
 

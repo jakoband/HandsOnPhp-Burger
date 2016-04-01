@@ -29,28 +29,28 @@ class RecipeTest extends PHPUnit_Framework_TestCase
     {
         return [
             [
-                'HamburgerRecipe',
+                HamburgerRecipe::class,
                 [
-                    BreadBottomSide::class,
-                    Patty::class,
-                    Tomato::class,
-                    Sauce::class,
-                    Salad::class,
-                    BreadTopSide::class,
+                    'BreadBottomSide',
+                    'Patty',
+                    'Tomato',
+                    'Sauce',
+                    'Salad',
+                    'BreadTopSide',
                 ],
                 'Hamburger'
             ],
 
             [
-                'CheeseburgerRecipe',
+                CheeseburgerRecipe::class,
                 [
-                    BreadBottomSide::class,
-                    Patty::class,
-                    Tomato::class,
-                    Sauce::class,
-                    Salad::class,
-                    Cheese::class,
-                    BreadTopSide::class,
+                    'BreadBottomSide',
+                    'Patty',
+                    'Tomato',
+                    'Sauce',
+                    'Salad',
+                    'Cheese',
+                    'BreadTopSide',
                 ],
                 'Cheeseburger'
             ],

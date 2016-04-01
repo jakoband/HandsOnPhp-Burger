@@ -17,12 +17,13 @@ class BurgerTest extends PHPUnit_Framework_TestCase
         $chfCurrency = new ChfCurrency();
 
         $burger = new Burger(
+            'TestBurger',
             new Salad(new Price(10, $chfCurrency)),
             new Patty(new Price(20, $chfCurrency)),
             new BreadTopSide(new Price(10, $chfCurrency))
         );
 
-        $this->assertEquals(40, $burger->getPrice()->getAmountInLowestUnit());
+        $this->assertEquals(40, $burger->getPrice($chfCurrency)->getAmountInLowestUnit());
 
         return $burger;
     }
@@ -48,11 +49,9 @@ class BurgerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(BreadTopSide::class, $breadTopSide);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testEmptyIngredientsBurgerThrowsException()
     {
-        new Burger();
+        $this->expectException(MissingIngredientException::class);
+        new Burger('TestBurger');
     }
 }

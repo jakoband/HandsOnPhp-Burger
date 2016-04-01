@@ -25,7 +25,10 @@ class BurgerBuilder
         $ingredientsList = $recipe->getIngredientNameCollection();
 
         if (!$ingredientsList->hasIngredients()) {
-            throw new Exception('Rezept ohne Zutaten übergeben.');
+            throw new BurgerBuilderException(sprintf(
+                'Rezept "%s" ohne Zutaten übergeben.',
+                $recipe->getName()
+            ));
         }
 
         $ingredients = [];
@@ -33,6 +36,6 @@ class BurgerBuilder
         foreach ($ingredientsList->getIngredientNames() as $ingredientName) {
             $ingredients[] = $this->ingredientRepository->getIngredient($ingredientName);
         }
-        return new Burger(...$ingredients);
+        return new Burger($recipe->getName(), ...$ingredients);
     }
 }
