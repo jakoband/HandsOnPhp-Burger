@@ -37,7 +37,7 @@ foreach ($burgerRecipesToBuild as $recipe) {
     try {
         $burger = $burgerBuilder->build($recipe);
 
-        $burgerPrice = $priceFormatter->formatPriceFromLowestUnit($burger->getPrice($currency)->getAmountInLowestUnit());
+        $burgerPrice = $priceFormatter->formatPrice($burger->getPrice($currency));
         $burgerIngredients = implode(' + ', $burger->getIngredients());
 
         $burgerViewModel = new BurgerViewModel($recipe->getName(), $burgerPrice, $burgerIngredients);

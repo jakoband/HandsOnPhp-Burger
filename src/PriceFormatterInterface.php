@@ -4,9 +4,9 @@
 interface PriceFormatterInterface
 {
     /**
-     * @param int $priceInLowestUnit
+     * @param Price $price
      * @return string
      */
-    public function formatPriceFromLowestUnit(int $priceInLowestUnit) : string;
+    public function formatPrice(Price $price) : string;
 }
 

@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * @covers SwissNumberFormat
+ */
 class SwissNumberFormat implements NumberFormatInterface
 {
     /**

@@ -17,13 +17,13 @@ class SwissPriceFormatter implements PriceFormatterInterface
     }
 
     /**
-     * @param int $priceInLowestUnit
+     * @param Price $price
      * @return string
      */
-    public function formatPriceFromLowestUnit(int $priceInLowestUnit) : string
+    public function formatPrice(Price $price) : string
     {
         $formattedPrice = number_format(
-            $priceInLowestUnit / 100,
+            $price->getAmountInLowestUnit() / 100,
             $this->format->getDecimals(),
             $this->format->getDecimalPoint(),
             $this->format->getThousandsSeparator()
