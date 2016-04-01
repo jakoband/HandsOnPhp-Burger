@@ -22,7 +22,7 @@ class IngredientRepository
     public function getIngredient($ingredientName) : IngredientInterface
     {
         if (!$this->hasIngredient($ingredientName)) {
-            throw new InvalidArgumentException(sprintf('Ingredient "%s" not found', $ingredientName));
+            throw new InvalidArgumentException(sprintf('Zutat "%s" ist nicht mehr vorhanden', $ingredientName));
         }
         return array_pop($this->storage[$ingredientName]);
     }
@@ -61,7 +61,7 @@ class IngredientRepository
     {
         $name = (string) $ingredient;
         if (!isset($this->storage[$name])) {
-            throw new InvalidArgumentException(sprintf('Ingredient "%s" can not be stored.', $name));
+            throw new InvalidArgumentException(sprintf('"%s" ist keine erlaubte Zutat.', $name));
         }
     }
 }

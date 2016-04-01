@@ -25,24 +25,14 @@ class BurgerBuilder
         $ingredientsList = $recipe->getIngredientNameCollection();
 
         if (!$ingredientsList->hasIngredients()) {
-            throw new Exception('Recipe without ingredients given.');
+            throw new Exception('Rezept ohne Zutaten übergeben.');
         }
 
         $ingredients = [];
 
-        try {
-
-            foreach ($ingredientsList->getIngredientNames() as $ingredientName) {
-                $ingredients[] = $this->ingredientRepository->getIngredient($ingredientName);
-            }
-            return new Burger(new IngredientCollection(...$ingredients));
-
-        } catch (Exception $e) {
-
-            echo sprintf('Burger "%s" konnte nicht erstellt werden: %s', $recipe->getName(), $e->getMessage());
-            echo PHP_EOL;
+        foreach ($ingredientsList->getIngredientNames() as $ingredientName) {
+            $ingredients[] = $this->ingredientRepository->getIngredient($ingredientName);
         }
-
-        return null;
+        return new Burger(new IngredientCollection(...$ingredients));
     }
 }

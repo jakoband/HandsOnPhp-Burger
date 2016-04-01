@@ -63,6 +63,9 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Zutaten: BreadBottomSide + BreadTopSide, Preis: 45', (string) $burger);
     }
 
+    /**
+     * @expectedException Exception
+     */
     public function testBurgerBuildingWithInsufficientIngredientsThrowsException()
     {
         $ingredientNameCollection = $this->getMockBuilder(IngredientNameCollection::class)->disableOriginalConstructor()->getMock();
@@ -80,13 +83,10 @@ class BurgerBuilderTest extends PHPUnit_Framework_TestCase
         $this->recipe->expects($this->once())
             ->method('getIngredientNameCollection')
             ->willReturn($ingredientNameCollection);
-        $this->recipe->expects($this->once())->method('getName')->willReturn('Testrezept');
 
         $this->repository->expects($this->at(0))->method('getIngredient')->willReturn(new BreadBottomSide(new Price(20, new ChfCurrency())));
         $this->repository->expects($this->at(1))->method('getIngredient')->will($this->throwException(new Exception('Testmessage')));
 
-        $this->assertNull($this->burgerBuilder->build($this->recipe));
-
-        $this->expectOutputString('Burger "Testrezept" konnte nicht erstellt werden: Testmessage' . PHP_EOL);
+        $this->burgerBuilder->build($this->recipe);
     }
 }

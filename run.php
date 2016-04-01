@@ -22,13 +22,20 @@ $ingredientRepository
 
 $burgerBuilder = new BurgerBuilder($ingredientRepository);
 
-$hamburgerRecipe = new HamburgerRecipe();
-$hamburger = $burgerBuilder->build($hamburgerRecipe);
-echo 'Hamburger: ' . $hamburger . chr(10);
+$burgerRecipesToBuild = [
+    new HamburgerRecipe(),
+    new CheeseburgerRecipe()
+];
 
-$cheeseburgerRecipe = new CheeseburgerRecipe($ingredientRepository);
-$cheeseburger = $burgerBuilder->build($cheeseburgerRecipe);
-if (!is_null($cheeseburger)) {
-    echo 'Cheeseburger: ' . $cheeseburger . chr(10);
+foreach ($burgerRecipesToBuild as $recipe) {
+    /** @var RecipeInterface $recipe */
+
+    try {
+        $burger = $burgerBuilder->build($recipe);
+        echo sprintf('"%s": %s' . PHP_EOL, $recipe->getName(), (string) $burger);
+
+    } catch (Exception $e) {
+        echo sprintf('"%s" konnte nicht zubereitet werden. Meldung: "%s"' . PHP_EOL, $recipe->getName(), $e->getMessage());
+    }
 }
 
